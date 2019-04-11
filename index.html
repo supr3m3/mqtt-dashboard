@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/semantic.min.css">
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css'>
+
+
+  <title>MQTT Dashboard</title>
+
+  <script type="text/javascript" src="js/socket.io.min.js"></script>
+  <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+
+  <script type="text/javascript">
+    var socket = io.connect('http://localhost:3000');
+      socket.on('connect', function () {
+        socket.on('mqtt', function (msg) {
+          console.log(msg)
+          let time = msg.payload.time;
+          let val = msg.payload.value;
+          let temp = msg.payload.temperature_C;
+
+          var newVal = parseFloat(val).toFixed(2);
+          var msgTopic=msg.topic.split("/");
+          var id=msgTopic[2];
+        
+          var seed = id + '_seed';
+          var carbon = id + '_carbon';
+          var fahrenheit = id + '_fahrenheit';
+
+          var seedVal = (1559 * val * (4.536 * Math.pow(10,-7))) / 0.060;
+          var carbonVal = (1559 * val * 1.10231 * (4.536 * Math.pow(10,-7)));  
+          var fahrenheitVal = (temp * (9/5)) + 32;
+
+          $('#'+ id).text(newVal);
+          $('#'+ fahrenheit).text(parseFloat(fahrenheitVal).toFixed(2));
+          $('#'+ seed).text(parseFloat(seedVal).toFixed(2));
+          $('#'+ carbon).text(parseFloat(carbonVal).toFixed(2));
+       });
+       socket.emit('Connected to: ',{topic:'anthonyho/#'});
+      });
+  </script>
+
+</head>
+
+<body>
+
+<p><h2 class="ui center dividing aligned header">MQTT Dashboard</h2></p>
+
+<div class="row">
+    <div class="column">
+        <div class="ui message">
+            <h1 class="ui header">Solar Energy</h>
+        </div>
+    </div>
+</div>
+
+
+<div class="wrapper">
+<div class="section group">
+
+	<div class="col span_1_of_5">
+    <div class="ui cards">
+      <div class="card">
+        <div class="content">
+          <img class="right floated mini ui image" src="img/028-solar-energy-1.png">
+          <div class="header">
+              Real Energy<br>
+              Import
+          </div>
+          <div class="meta">
+            Veris E51C3
+          </div>
+          <div class="description"></div>
+        </div>
+        <div style="text-align:center;" class="extra content centered">
+          <div class="ui labeled button" tabindex="0">
+        <div id="Real_Energy_Import" class="ui secondary button">
+          <div class="ui active small inline loader"></div>
+          </div>
+          <!-- °C -->
+            <button class="ui basic label">kWh</button>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+
+	<div class="col span_1_of_5">
+    <div class="ui cards">
+    <div class="card">
+      <div class="content">
+        <img class="right floated mini ui image" src="img/050-renewable-energy.png">
+        <div class="header">
+            Real Energy<br>
+            Export
+        </div>
+        <div class="meta">
+          Veris E51C3
+        </div>
+        <div class="description">
+        </div>
+      </div>
+      <div style="text-align:center;" class="extra content centered">
+        <div class="ui labeled button" tabindex="0">
+      <div id="Real_Energy_Export" class="ui secondary button">
+        <div class="ui active small inline loader"></div>
+        </div>
+          <button class="ui basic label">kWh</button>
+        </div>
+      </div>
+    </div>
+  </div>
+	</div>
+
+	<div class="col span_1_of_5">
+    <div class="ui cards">
+    <div class="card">
+      <div class="content">
+        <img class="right floated mini ui image" src="img/030-solar-panel.png">
+        <div class="header">
+            Accumalated<br>
+            Real Energy
+        </div>
+        <div class="meta">Real - Export
+        </div>
+        <div class="description"></div>
+      </div>
+      <div style="text-align:center;" class="extra content centered">
+        <div class="ui labeled button" tabindex="0">
+      <div id="Acummlated_Real_Energy" class="ui secondary button">
+        <div class="ui active small inline loader"></div>
+        </div>
+          <button class="ui basic label">kWh</button>
+        </div>
+      </div>
+    </div>
+  </div>
+	</div>
+
+    <div class="col span_1_of_5">
+    <div class="ui cards">
+    <div class="card">
+      <div class="content">
+        <img class="right floated mini ui image" src="img/015-sprouts.png">
+        <div class="header">
+            Tree Seedings<br>
+            Grown
+        </div>
+        <div class="meta">
+            for 10 years
+            <br>
+        </div>
+        <div class="description"></div>
+      </div>
+      <div style="text-align:center;" class="extra content centered">
+        <div class="ui labeled button" tabindex="0">
+      <div id="Real_Energy_Import_seed" class="ui secondary button">
+        <div class="ui active small inline loader"></div>
+        </div>
+          <button class="ui basic label">
+            <center>
+            <i class="tree icon"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+	</div>
+
+  <div class="col span_1_of_5">
+    <div class="ui cards">
+    <div class="card">
+      <div class="content">
+        <img class="right floated mini ui image" src="img/000-co2.png">
+        <div class="header">
+            Total Carbon<br>
+            Emission
+        </div>
+        <div class="meta">
+            avoided 
+            <br>
+        </div>
+        <div class="description"></div>
+      </div>
+      <div style="text-align:center;" class="extra content centered">
+        <div class="ui labeled button" tabindex="0">
+      <div id="Real_Energy_Import_carbon" class="ui secondary button">
+        <div class="ui active small inline loader"></div>
+        </div>
+          <button class="ui basic label">
+            Tons 
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+	</div>
+    
+</div>
+</div>
+
+<!--
+<div class="row">
+    <div class="column">
+        <div class="ui message">
+            <h1 class="ui header">Center of Competency</h1>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper">
+<div class="section group">
+
+<div class="col span_1_of_5">
+    <div class="ui cards">
+      <div class="card">
+        <div class="content">
+          <img class="right floated mini ui image" src="img/thermometer.png">
+          <div class="header">
+              Laboratory Climate<br>
+              Temperature
+          </div>
+          <div class="meta">
+            SDR
+          </div>
+          <div class="description"></div>
+        </div>
+        <div style="text-align:center;" class="extra content centered">
+          <div class="ui labeled button" tabindex="0">
+        <div id="thermostat_fahrenheit" class="ui secondary button">
+          <div class="ui active small inline loader"></div>
+          </div>
+            <button class="ui basic label">°F</button>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+
+<div class="col span_1_of_5">
+    <div class="ui cards">
+      <div class="card">
+        <div class="content">
+          <img class="right floated mini ui image" src="img/humidity.png">
+          <div class="header">
+              Laboratory Climate<br>
+              Temperature
+          </div>
+          <div class="meta">
+            SDR
+          </div>
+          <div class="description"></div>
+        </div>
+        <div style="text-align:center;" class="extra content centered">
+          <div class="ui labeled button" tabindex="0">
+        <div id="thermostat_humidity" class="ui secondary button">
+          <div class="ui active small inline loader"></div>
+          </div>
+            <button class="ui basic label">°F</button>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+
+-->
+</body>
+</html>
