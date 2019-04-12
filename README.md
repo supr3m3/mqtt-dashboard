@@ -1,4 +1,4 @@
-# MQTT Dashboard
+MQTT Dashboard
 ===
 ###### tags: `MQTT`, `Node.js`, `Websockets`, 
 
