@@ -1,6 +1,3 @@
----
-title: 'MQTT-Dashboard: Solar Energy Acquisition'
----
 
 MQTT Dashboard: Solar Energy Acquisition
 ===
@@ -11,10 +8,6 @@ This project uses MQTT protocol to stream live energy data. The objective of thi
 The client publishing the data is located in a remote area and communicates via Modbus RTU. A Modbus gateway ([MGate 3170](https://www.moxa.com/en/products/industrial-edge-connectivity/protocol-gateways/modbus-tcp-gateways/mgate-mb3170-mb3270-series)) is being used to convert the serial data to TCP data so that the data is accessible thorugh the internet.
 
 [UC-8112](https://www.moxa.com/en/products/industrial-computing/arm-based-computers/uc-8100-series/uc-8112-lx) is set up to acquire the Modbus data. This gateway is responsible of converting the Modbus data into JSON data. Once converted, the JSON data is published to the MQTT broker for clients to subscribe. For more details, click [here](https://guide.iiot.party/).
-
-## Table of Contents
-
-[TOC]
 
 What is MQTT?
 ---
