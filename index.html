@@ -27,7 +27,7 @@
           var newVal = parseFloat(val).toFixed(2);
           var msgTopic=msg.topic.split("/");
           var id=msgTopic[2];
-        
+          console.log(id)        
           var seed = id + '_seed';
           var carbon = id + '_carbon';
           var fahrenheit = id + '_fahrenheit';
@@ -123,7 +123,7 @@
       <div class="content">
         <img class="right floated mini ui image" src="img/030-solar-panel.png">
         <div class="header">
-            Accumalated<br>
+            Accumulated<br>
             Real Energy
         </div>
         <div class="meta">Real - Export
@@ -132,7 +132,7 @@
       </div>
       <div style="text-align:center;" class="extra content centered">
         <div class="ui labeled button" tabindex="0">
-      <div id="Acummlated_Real_Energy" class="ui secondary button">
+      <div id="Accumulated_Real_Energy" class="ui secondary button">
         <div class="ui active small inline loader"></div>
         </div>
           <button class="ui basic label">kWh</button>

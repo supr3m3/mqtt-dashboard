@@ -8,13 +8,14 @@ var http = require("http"),
     port = process.argv[2] || 8888;
 
 var io  = require('socket.io').listen(3000);
-var client  = mqtt.connect('mqtt://iot.eclipse.org');
+//var client = mqtt.connect('mqtt://iot.eclipse.org');
+var client  = mqtt.connect('mqtt://broker.hivemq.com');
 
 client.on('connect', function () {
     // Solar Panel
-    client.subscribe('anthonyho/#');
+    client.subscribe('anthonyho-solar/veris/#');
     client.subscribe('anthonyho/sdr/thermostat/#');
-    console.log("\nConnected to /anthonyho/\n");
+    console.log("\nConnected to broker... \n");
 });
 
 io.sockets.on('connection', function (socket) {
@@ -64,4 +65,4 @@ http.createServer(function(request, response) {
   });
 }).listen(parseInt(port, 10));
 
-console.log("Static file server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");
+console.log("Dashboard is running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");
